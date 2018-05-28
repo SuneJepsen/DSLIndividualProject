@@ -1,0 +1,48 @@
+/*
+* In the multiagent game each agent needs to push the box with
+* the agent's color to a goal with the same color
+*/
+
+Game MultiAgents
+
+// The colors: red - 0, blue - 1
+
+Object RedAgent (0,2)
+	truth value isAgent = true
+	number color = 0 
+
+Object BlueAgent (2,0)
+	truth value isAgent = true
+	number color = 1
+	
+Object RedBox (1,0)
+	truth value isBox = true 
+	number color = 0
+	
+Object BlueBox (3,1)
+	truth value isBox = true
+	number color = 1
+
+Location RedGoal (3,0)
+	truth value isWall = false
+Location BlueGoal (2,3)
+	truth value isWall = false
+
+Action Move(agent, next)
+	Condition agent.isAgent, isNeighbor(agent, next), !next.isWall 
+	Effect goTo(agent, next)
+
+Action Push(agent, box, next)
+	Condition agent.isAgent, box.isBox, agent.color == box.color, isNeighbor(agent, box), isNeighbor(box, next), !next.isWall
+	Effect goTo(agent, box), goTo(box, next)
+	
+WinningState isHere(RedBox, RedGoal), isHere(BlueBox, BlueGoal)
+
+Move(RedAgent, (0,1))
+Move(RedAgent, (0,0))
+Move(BlueAgent, (2,1))
+Push(BlueAgent, BlueBox, (3,2))
+Push(BlueAgent, BlueBox, (3,3))
+Push(RedAgent, RedBox, (2,0))
+Push(BlueAgent, BlueBox, (2,3))
+Push(RedAgent, RedBox, (3,0))

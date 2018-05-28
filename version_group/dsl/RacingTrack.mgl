@@ -1,0 +1,65 @@
+/**
+ * In this game a race car shall drive 3 laps by checking into check points
+ */
+Game RacingTrack
+
+number neededLaps = 3
+
+Object RaceCar (0,0)
+	number checkPointsPassed = 0
+	number laps = (RaceCar.checkPointsPassed -1) / 2
+	truth value isRaceCar = true
+
+Object CheckPoint1 (0,0) CheckPoint2 (2,2)
+	truth value isCheckPoint = true
+	truth value isWall = false
+
+Location Wall (1,1) (0,3) (1,3) (2,3) (3,3) (3,2) (3,1) (3,0)
+	truth value isWall = true
+
+Action Drive (racer, next)
+	Condition racer.isRaceCar, !next.isWall, isNeighbor(racer, next)
+	Effect goTo(racer, next)
+	
+Action CheckIn (racer, checkPoint)
+	Condition racer.isRaceCar, checkPoint.isCheckPoint, isHere(racer, checkPoint)
+	Effect racer.checkPointsPassed++	
+
+WinningState RaceCar.laps == neededLaps
+
+// Lap 1
+CheckIn(RaceCar, CheckPoint1)
+Drive(RaceCar, (0,1))
+Drive(RaceCar, (0,2))
+Drive(RaceCar, (1,2))
+Drive(RaceCar, (2,2))
+CheckIn(RaceCar, CheckPoint2)
+Drive(RaceCar, (2,1))
+Drive(RaceCar, (2,0))
+Drive(RaceCar, (1,0))
+Drive(RaceCar, (0,0))
+CheckIn(RaceCar, CheckPoint1)
+
+// Lap 2
+Drive(RaceCar, (0,1))
+Drive(RaceCar, (0,2))
+Drive(RaceCar, (1,2))
+Drive(RaceCar, (2,2))
+CheckIn(RaceCar, CheckPoint2)
+Drive(RaceCar, (2,1))
+Drive(RaceCar, (2,0))
+Drive(RaceCar, (1,0))
+Drive(RaceCar, (0,0))
+CheckIn(RaceCar, CheckPoint1)
+
+// Lap 3
+Drive(RaceCar, (0,1))
+Drive(RaceCar, (0,2))
+Drive(RaceCar, (1,2))
+Drive(RaceCar, (2,2))
+CheckIn(RaceCar, CheckPoint2)
+Drive(RaceCar, (2,1))
+Drive(RaceCar, (2,0))
+Drive(RaceCar, (1,0))
+Drive(RaceCar, (0,0))
+CheckIn(RaceCar, CheckPoint1)

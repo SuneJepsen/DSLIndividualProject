@@ -1,0 +1,37 @@
+/*
+ * In this game an agent shall navigate through
+ * a labyrinth with a path length below the defined
+ * "maxPathLength" 
+ */
+
+Game LabyrinthQuest   
+
+number maxPathLength = 11
+
+Object Agent (0,0)
+    truth value isAgent = true 
+	number path = 0 
+Location Wall (1,0) (2,1) (2,2) (1,2)
+    truth value isWall = true
+Object Goal (2,0) 
+
+Action MoveAndDeleteObject (player,next)    
+ 	Condition player.isAgent, !next.isWall , isNeighbor(arg player, arg next), !isHere(objdec Goal, arg next)    
+    Effect goTo(arg player, arg next), player.path++, delete(player, next) 
+
+Action Move (player,next)
+ 	Condition player.isAgent, !next.isWall, isNeighbor(arg player,arg next)   
+    Effect goTo(arg player,arg next), player.path++
+ 
+WinningState isHere(objdec Agent, objdec Goal), Agent.path <= maxPathLength
+ 
+Move(Agent, (0,1))
+Move(Agent, (0,2))
+Move(Agent, (0,3))
+Move(Agent, (1,3))
+Move(Agent, (2,3))
+Move(Agent, (3,3))
+Move(Agent, (3,2))
+Move(Agent, (3,1))
+Move(Agent, (3,0))
+Move(Agent, (2,0))

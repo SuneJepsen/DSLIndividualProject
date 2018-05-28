@@ -1,0 +1,38 @@
+/*
+ * In this game an agent shall navigate through
+ * a labyrinth with a path length below the defined
+ * "maxPathLength" . The agent has the ability to 
+ * delete walls and other agents on his path.
+ */
+
+Game LabyrinthWithDelete     
+
+number maxPathLength = 5
+
+Object Agent1 (0,0) Agent2(1,0)   
+    truth value isAgent = true 
+	number path = 0  
+Location Wall (0,1)  (2,1) (2,2) (1,2)  
+    truth value isWall = true
+Object Goal (2,0)     
+  
+Action Move (player,next) 
+ 	Condition player.isAgent, !next.isWall, isNeighbor(arg player, arg next)      
+    Effect goTo(arg player, arg next), player.path++
+
+Action MoveAndDeleteObject (player,next)    
+ 	Condition player.isAgent, !next.isWall , isNeighbor(arg player, arg next), !isHere(objdec Goal, arg next)    
+    Effect goTo(arg player, arg next), player.path++, delete(player, next) 
+    
+Action MoveAndDeleteWall (player,next)    
+ 	Condition player.isAgent, next.isWall , isNeighbor(arg player, arg next), !isHere(objdec Goal, arg next)    
+    Effect goTo(arg player, arg next), player.path++, delete(player, next) 
+ 
+WinningState isHere(objdec Agent1, objdec Goal), Agent1.path <= maxPathLength
+ 
+
+MoveAndDeleteWall(Agent1, (0,1))
+Move(Agent1, (0,0))
+MoveAndDeleteObject(Agent1, (1,0))
+Move(Agent1, (2,0))
+

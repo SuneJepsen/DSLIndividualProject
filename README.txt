@@ -21,10 +21,6 @@ This zip contains:
   - xtext folder
     - Contains .xtext and .xtend files
 
-  - A HowToVideo.mp4
-    - Showcases how to setup everything to run the
-      examples.
-
 - version_group
   - Contains the group project
   - Has its own README.txt
